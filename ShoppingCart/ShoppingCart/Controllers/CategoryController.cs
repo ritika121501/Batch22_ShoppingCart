@@ -1,14 +1,23 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingCart.Models;
+using ShoppingCart.Repository;
 
 namespace ShoppingCart.Controllers
 {
 	public class CategoryController : Controller
 	{
+		private readonly IUnitOfWork _unitOfWork;
+
+		public CategoryController(IUnitOfWork unitOfWork)
+		{
+			_unitOfWork = unitOfWork;
+		}
 		// GET: CategoryController
 		public ActionResult Index()
 		{
-			return View();
+			List<Category> categoryList = _unitOfWork.Category.GetAllExpression().ToList();
+			return View(categoryList);
 		}
 
 		// GET: CategoryController/Details/5
