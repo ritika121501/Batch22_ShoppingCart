@@ -1,0 +1,36 @@
+﻿
+@model List<Category>
+<figure>
+  <blockquote class="blockquote">
+    <p class="mb-0">This is a category page. This page would be used by Admin to add any new category
+        for books.
+    </p>
+  
+  </blockquote>
+  <figcaption class="blockquote-footer">
+    This is Admin <cite title="Source Title">Admin role required</cite>
+  </figcaption>
+</figure>
+
+<button type="button" class="btn btn-danger disabled">Create Category</button>
+<div></div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Category Id</th>
+      <th scope="col">Category Name</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+      @foreach(var i in Model)
+        {
+                <tr class="table-success">
+            <td>@i.CategoryId</td>
+            <td>@i.Name</td>
+                <td>Edit</td>
+            </tr>
+        }
+  </tbody>
+</table>
