@@ -35,11 +35,23 @@ namespace ShoppingCart.Controllers
 		// POST: CategoryController/Create
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(IFormCollection collection)
+		public ActionResult Create(Category category)
 		{
 			try
 			{
-				return RedirectToAction(nameof(Index));
+				if (category == null) 
+				{
+					return RedirectToAction(nameof(Index));
+				}
+
+				if(ModelState.IsValid)
+				{
+					_unitOfWork.Category.Add(category);
+					_unitOfWork.Save();
+					TempData["Success"] = "Category created successfully";
+					return RedirectToAction("Index");
+				}
+				return View();
 			}
 			catch
 			{
@@ -50,18 +62,34 @@ namespace ShoppingCart.Controllers
 		// GET: CategoryController/Edit/5
 		public ActionResult Edit(int id)
 		{
-			return View();
+			if(id==0)
+			{
+				return NotFound();
+			}
+			var checkCategory = _unitOfWork.Category.Get(x => x.CategoryId == id);
+			if(checkCategory == null)
+			{
+				return NotFound();
+			}
+			return View(checkCategory);
 		}
 
 		// POST: CategoryController/Edit/5
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int id, IFormCollection collection)
+		public ActionResult Edit(Category category)
 		{
 			try
 			{
-				return RedirectToAction(nameof(Index));
-			}
+                if (ModelState.IsValid)
+                {
+                    _unitOfWork.Category.Update(category);
+                    _unitOfWork.Save();
+                    TempData["Success"] = "Category updated successfully";
+                    return RedirectToAction("Index");
+                }
+                return View();
+            }
 			catch
 			{
 				return View();
@@ -71,18 +99,35 @@ namespace ShoppingCart.Controllers
 		// GET: CategoryController/Delete/5
 		public ActionResult Delete(int id)
 		{
-			return View();
-		}
+            if (id == 0)
+            {
+                return NotFound();
+            }
+            var checkCategory = _unitOfWork.Category.Get(x => x.CategoryId == id);
+            if (checkCategory == null)
+            {
+                return NotFound();
+            }
+            return View(checkCategory);
+        }
 
 		// POST: CategoryController/Delete/5
-		[HttpPost]
+		[HttpPost, ActionName("Delete")]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(int id, IFormCollection collection)
+		public ActionResult DeletePost(int id)
 		{
 			try
 			{
-				return RedirectToAction(nameof(Index));
-			}
+                var checkCategory = _unitOfWork.Category.Get(x => x.CategoryId == id);
+				if (checkCategory == null)
+				{
+					return NotFound();
+				}
+				_unitOfWork.Category.Remove(checkCategory);
+				_unitOfWork.Save();
+				TempData["Success"] = "Category delete successully";
+				return RedirectToAction("Index");
+            }
 			catch
 			{
 				return View();
