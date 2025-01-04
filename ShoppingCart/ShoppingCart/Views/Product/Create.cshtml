@@ -1,0 +1,55 @@
+﻿@using ShoppingCart.ViewModels
+@model ProductVM
+
+<div class="card shadow border-0 mt-4">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="text-black py-2"> Create Category</h2>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <form method="post" class="row">
+            <div class="border p-3">
+                <input asp-for="Product.Title" class="form-control border-0 shadow" />
+                <label asp-for="Product.Title" class="ms-2"></label>
+                <span asp-validation-for="Product.Title" class="text-danger"></span>
+            </div>
+            <div class="border p-3">
+                <input asp-for="Product.Description" class="form-control border-0 shadow" />
+                <label asp-for="Product.Description" class="ms-2"></label>
+                <span asp-validation-for="Product.Description" class="text-danger"></span>
+            </div>
+            <div class="border p-3">
+                <input asp-for="Product.Author" class="form-control border-0 shadow" />
+                <label asp-for="Product.Author" class="ms-2"></label>
+                <span asp-validation-for="Product.Author" class="text-danger"></span>
+            </div>
+            <div class="border p-3">
+                <input asp-for="Product.ISBN" class="form-control border-0 shadow" />
+                <label asp-for="Product.ISBN" class="ms-2"></label>
+                <span asp-validation-for="Product.ISBN" class="text-danger"></span>
+            </div>
+            <div class="border p-3">
+                <input asp-for="Product.Price" class="form-control border-0 shadow" type="number" />
+                <label asp-for="Product.Price" class="ms-2"></label>
+                <span asp-validation-for="Product.Price" class="text-danger"></span>
+            </div>
+            <div class="border p-3">
+               <select asp-for="Product.CategoryId" asp-items="@Model.CategoryList">
+                   <option disabled selected>--Select Category--</option>
+               </select>
+            </div>
+
+            <div class="row pt-2">
+                <div class="col-6 col-md-3">
+                    <button type="submit" class="btn btn-primary form-control"> Create</button>
+                </div>
+                <div class="col-6 col-md-3">
+                    <a asp-controller="Product" asp-action="Index" class="btn btn-outline-primary border form-control">Back to List</a>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
