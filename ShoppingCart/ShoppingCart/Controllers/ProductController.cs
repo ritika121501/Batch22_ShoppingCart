@@ -10,10 +10,12 @@ namespace ShoppingCart.Controllers
 	public class ProductController : Controller
 	{
 		private readonly IUnitOfWork _unitOfWork;
+		private readonly IWebHostEnvironment _webHostEnvironment;
 
-		public ProductController(IUnitOfWork unitOfWork)
+		public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
 		{
 			_unitOfWork = unitOfWork;
+			_webHostEnvironment = webHostEnvironment;
 		}
 		// GET: ProductController
 		public ActionResult Index()
@@ -144,5 +146,87 @@ namespace ShoppingCart.Controllers
 				return View();
 			}
 		}
-	}
+
+		[HttpGet]
+		public IActionResult Upsert(int? id)
+		{
+			ProductVM productVM = new()
+			{
+				CategoryList = _unitOfWork.Category.GetAllExpression().Select(u => new SelectListItem
+				{
+					Text = u.Name,
+					Value = u.CategoryId.ToString()
+				}),
+				Product = new Product()
+
+			};
+
+			if(id == null || id ==0)
+			{
+				//create
+				return View(productVM);
+			}
+			else
+			{
+				productVM.Product = _unitOfWork.Product.Get(u => u.ProductId == id);
+				return View(productVM);
+			}
+		}
+
+        [HttpPost]
+        public IActionResult Upsert(ProductVM productVM, List<IFormFile> files)
+        {
+            if(ModelState.IsValid)
+			{
+				if(productVM.Product.ProductId ==0)
+				{
+					_unitOfWork.Product.Add(productVM.Product);
+				}
+				else
+				{
+					_unitOfWork.Product.Update(productVM.Product);
+				}
+				_unitOfWork.Save();
+
+				string wwwRootPath = _webHostEnvironment.WebRootPath;
+				if (files != null) 
+				{
+					foreach (IFormFile file in files) 
+					{
+						string fileName = Guid.NewGuid().ToString()+ Path.GetExtension(file.FileName);
+						string productPath = @"ProductImages" + productVM.Product.ProductId;
+						string finalPath = Path.Combine(wwwRootPath, fileName);
+
+						if (!Directory.Exists(finalPath)) { 
+							Directory.CreateDirectory(finalPath);
+						}
+						using (var filestream = new FileStream(Path.Combine(finalPath, fileName), FileMode.Create))
+						{
+							file.CopyTo(filestream);
+						}
+
+						ProductImage productImage = new()
+						{
+							ImageUrl = @"\" + productPath + @"\" + fileName,
+							ProductId = productVM.Product.ProductId,
+						};
+
+						if(productVM.Product.ProductImages == null)
+						{
+							productVM.Product.ProductImages = new List<ProductImage>();
+						}
+
+						productVM.Product.ProductImages.Add(productImage);
+
+					}
+					_unitOfWork.Product.Update(productVM.Product);
+					_unitOfWork.Save();
+
+				}
+
+			}
+			TempData["success"] = "Product created/updted successfully";
+            return RedirectToAction("Index");
+        }
+    }
 }
