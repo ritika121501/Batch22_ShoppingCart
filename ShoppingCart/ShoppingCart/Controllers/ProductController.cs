@@ -168,7 +168,7 @@ namespace ShoppingCart.Controllers
 			}
 			else
 			{
-				productVM.Product = _unitOfWork.Product.Get(u => u.ProductId == id);
+				productVM.Product = _unitOfWork.Product.Get(u => u.ProductId == id, includeProperties:"ProductImages");
 				return View(productVM);
 			}
 		}
@@ -194,8 +194,8 @@ namespace ShoppingCart.Controllers
 					foreach (IFormFile file in files) 
 					{
 						string fileName = Guid.NewGuid().ToString()+ Path.GetExtension(file.FileName);
-						string productPath = @"ProductImages" + productVM.Product.ProductId;
-						string finalPath = Path.Combine(wwwRootPath, fileName);
+						string productPath = @"images\products\product-" + productVM.Product.ProductId;
+						string finalPath = Path.Combine(wwwRootPath, productPath);
 
 						if (!Directory.Exists(finalPath)) { 
 							Directory.CreateDirectory(finalPath);
@@ -228,5 +228,24 @@ namespace ShoppingCart.Controllers
 			TempData["success"] = "Product created/updted successfully";
             return RedirectToAction("Index");
         }
+
+		public IActionResult DeleteImage(int imageId)
+		{
+			var imageToBeDeleted =_unitOfWork.ProductImage.Get(u=>u.ProductId == imageId);
+			if (imageToBeDeleted != null) {
+				if (!string.IsNullOrEmpty(imageToBeDeleted.ImageUrl))
+				{
+					var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, imageToBeDeleted.ImageUrl.TrimStart('\\'));
+					if (System.IO.File.Exists(oldImagePath))
+					{
+						System.IO.File.Delete(oldImagePath);
+					}
+				}
+				_unitOfWork.ProductImage.Remove(imageToBeDeleted);
+				_unitOfWork.Save();
+			}
+
+			return RedirectToAction("Index");
+		}
     }
 }
