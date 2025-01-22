@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ShoppingCart.Models;
+using ShoppingCart.Entities;
 using ShoppingCart.Repository;
 using ShoppingCart.ViewModels;
 
@@ -20,7 +20,23 @@ namespace ShoppingCart.Controllers
 		// GET: ProductController
 		public ActionResult Index()
 		{
-			List<Product> ProductList = _unitOfWork.Product.GetAllExpression().ToList();
+            JqueryDataTableParam param = new JqueryDataTableParam();
+			param.Search = "256";
+			param.DiaplayStart = 2;
+			param.DisplayLength =100;
+
+            List<Product> ProductList = _unitOfWork.Product.GetAllExpression().ToList();
+			if(!string.IsNullOrEmpty(param.Search))
+			{
+				ProductList = ProductList.Where(x => x.ISBN.ToLower().Contains(param.Search.ToLower())
+				|| x.Author.ToLower().Contains(param.Search.ToLower())
+				|| x.Title.ToLower().Contains(param.Search.ToLower())
+				|| x.Description.ToLower().Contains(param.Search.ToLower())).ToList();
+            }
+
+			ProductList = ProductList.Skip(param.DiaplayStart)
+				.Take(param.DisplayLength).ToList();
+			var totalRecords = ProductList.Count();
 			return View(ProductList);
 		}
 

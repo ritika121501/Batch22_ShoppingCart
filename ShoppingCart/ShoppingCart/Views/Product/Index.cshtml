@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ShoppingCart.Models.Product>
+﻿@using ShoppingCart.Entities
+@model IEnumerable<Product>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,7 +10,8 @@
 <p>
     <a asp-action="Upsert">Create New</a>
 </p>
-<table class="table">
+<table class="table" id="example" class="display" style="width:100%">
+    
     <thead>
         <tr>
             <th>
@@ -63,3 +65,18 @@
 }
     </tbody>
 </table>
+
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdn.datatables.net/2.2.1/js/dataTables.js"></script>
+
+    <script>
+        //new DataTable('#example');
+        new DataTable('#example', {
+            lengthMenu: [
+                [10, 25, 50, -1],
+                [10, 25, 50, 'All']
+            ]
+        });
+    </script>
+}
