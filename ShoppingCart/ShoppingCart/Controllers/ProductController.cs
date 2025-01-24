@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using ShoppingCart.Entities;
+using ShoppingCart.Models;
 using ShoppingCart.Repository;
 using ShoppingCart.ViewModels;
 

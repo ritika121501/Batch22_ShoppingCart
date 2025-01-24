@@ -1,4 +1,5 @@
-﻿using ShoppingCart.Models;
+﻿using ShoppingCart.Entities;
+using ShoppingCart.Models;
 
 namespace ShoppingCart.Repository
 {

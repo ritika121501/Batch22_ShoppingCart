@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ShoppingCart.Entities;
 using ShoppingCart.Models;
 using ShoppingCart.Repository;
 

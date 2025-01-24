@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ShoppingCart.Entities;
 using ShoppingCart.Models;
 
 namespace ShoppingCart.Repository
