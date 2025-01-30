@@ -1,12 +1,11 @@
 ﻿using ShoppingCart.Entities;
-using ShoppingCart.Models;
 
 namespace ShoppingCart.Repository
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {
         public ApplicationDbContext _db;
-        public CategoryRepository(ApplicationDbContext db) : base(db) 
+        public CategoryRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }

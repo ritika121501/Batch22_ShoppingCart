@@ -11,3 +11,16 @@ C:\Users\jha_p\Videos\Batch22_ShoppingCart\ShoppingCart\ShoppingCart.Entities\ob
 C:\Users\jha_p\Videos\Batch22_ShoppingCart\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.pdb
 C:\Users\jha_p\Videos\Batch22_ShoppingCart\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ref\ShoppingCart.Entities.dll
 C:\Users\jha_p\Videos\Batch22_ShoppingCart\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.csproj.AssemblyReference.cache
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\bin\Debug\net8.0\ShoppingCart.Entities.deps.json
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\bin\Debug\net8.0\ShoppingCart.Entities.dll
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\bin\Debug\net8.0\ShoppingCart.Entities.pdb
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.csproj.AssemblyReference.cache
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.AssemblyInfoInputs.cache
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.AssemblyInfo.cs
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.csproj.CoreCompileInputs.cache
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.sourcelink.json
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.dll
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\refint\ShoppingCart.Entities.dll
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ShoppingCart.Entities.pdb
+C:\Users\jha_p\OneDrive\Pictures\Batch22 Realtime Project\ShoppingCart\ShoppingCart.Entities\obj\Debug\net8.0\ref\ShoppingCart.Entities.dll

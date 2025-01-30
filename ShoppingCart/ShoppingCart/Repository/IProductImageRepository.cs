@@ -1,10 +1,9 @@
 ﻿using ShoppingCart.Entities;
-using ShoppingCart.Models;
 
 namespace ShoppingCart.Repository
 {
-    public interface IProductImageRepository: IRepository<ProductImage>
+    public interface IProductImageRepository : IRepository<ProductImage>
     {
-        void Update(ProductImage obj); 
+        void Update(ProductImage obj);
     }
 }

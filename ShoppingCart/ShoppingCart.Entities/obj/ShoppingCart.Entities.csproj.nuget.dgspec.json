@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jha_p\\Videos\\Batch22_ShoppingCart\\ShoppingCart\\ShoppingCart.Entities\\ShoppingCart.Entities.csproj": {}
+    "C:\\Users\\jha_p\\OneDrive\\Pictures\\Batch22 Realtime Project\\ShoppingCart\\ShoppingCart.Entities\\ShoppingCart.Entities.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jha_p\\Videos\\Batch22_ShoppingCart\\ShoppingCart\\ShoppingCart.Entities\\ShoppingCart.Entities.csproj": {
+    "C:\\Users\\jha_p\\OneDrive\\Pictures\\Batch22 Realtime Project\\ShoppingCart\\ShoppingCart.Entities\\ShoppingCart.Entities.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jha_p\\Videos\\Batch22_ShoppingCart\\ShoppingCart\\ShoppingCart.Entities\\ShoppingCart.Entities.csproj",
+        "projectUniqueName": "C:\\Users\\jha_p\\OneDrive\\Pictures\\Batch22 Realtime Project\\ShoppingCart\\ShoppingCart.Entities\\ShoppingCart.Entities.csproj",
         "projectName": "ShoppingCart.Entities",
-        "projectPath": "C:\\Users\\jha_p\\Videos\\Batch22_ShoppingCart\\ShoppingCart\\ShoppingCart.Entities\\ShoppingCart.Entities.csproj",
+        "projectPath": "C:\\Users\\jha_p\\OneDrive\\Pictures\\Batch22 Realtime Project\\ShoppingCart\\ShoppingCart.Entities\\ShoppingCart.Entities.csproj",
         "packagesPath": "C:\\Users\\jha_p\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jha_p\\Videos\\Batch22_ShoppingCart\\ShoppingCart\\ShoppingCart.Entities\\obj\\",
+        "outputPath": "C:\\Users\\jha_p\\OneDrive\\Pictures\\Batch22 Realtime Project\\ShoppingCart\\ShoppingCart.Entities\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -54,6 +54,10 @@
             "Microsoft.AspNetCore.Mvc.Core": {
               "target": "Package",
               "version": "[2.3.0, )"
+            },
+            "Microsoft.Extensions.Identity.Stores": {
+              "target": "Package",
+              "version": "[9.0.1, )"
             }
           },
           "imports": [
