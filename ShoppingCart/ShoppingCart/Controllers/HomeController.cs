@@ -42,11 +42,21 @@ namespace ShoppingCart.Controllers
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             var productFromDb = _unitOfWork.Product.Get(u => u.ProductId == shoppingKart.ProductId, includeProperties: "Category,ProductImages");
 
+            var cartFromDb = _unitOfWork.Shoppingkart.Get(u => u.ApplicationUserId == userId && u.ProductId == shoppingKart.ProductId);
             shoppingKart.ApplicationUserId = userId;
             shoppingKart.Price = productFromDb.Price;
-           
-            _unitOfWork.Shoppingkart.Add(shoppingKart);
-            _unitOfWork.Save();
+            if (cartFromDb != null)
+            {
+                shoppingKart.Id = cartFromDb.Id;
+                shoppingKart.Count += cartFromDb.Count;
+                _unitOfWork.Shoppingkart.Update(shoppingKart);
+                _unitOfWork.Save();
+            }
+            else
+            {
+                _unitOfWork.Shoppingkart.Add(shoppingKart);
+                _unitOfWork.Save();
+            }
 
             return RedirectToAction("Index");
         }
