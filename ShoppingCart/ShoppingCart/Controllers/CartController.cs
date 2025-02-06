@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShoppingCart.Entities;
 using ShoppingCart.Entities.ViewModel;
 using ShoppingCart.Repository;
@@ -35,8 +36,8 @@ namespace ShoppingCart.Controllers
             foreach(var cart in shoppingCartVM.ShoppingKartsList)
             {
                 cart.Product.ProductImages = productImages.Where(x => x.ProductId == cart.Product.ProductId).ToList();
-                cart.Price = GetPriceBasedOnQuantity(cart);
-                shoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+                cart.Price = cart.Price;
+                shoppingCartVM.OrderHeader.OrderTotal += (cart.Product.Price * cart.Count);
                 //shoppingCartVM.OrderHeader.OrderTotal = shoppingCartVM.OrderHeader.OrderTotal + (cart.Price * cart.Count);
             }
             return View(shoppingCartVM);
@@ -76,6 +77,37 @@ namespace ShoppingCart.Controllers
                 finalPrice= shoppingKart.Count * shoppingKart.Price;
             }
             return finalPrice;
+        }
+
+        public IActionResult Summary()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            ShoppingCartVM shoppingCartVM = new ShoppingCartVM()
+            {
+                ShoppingKartsList = _unitOfWork.Shoppingkart.GetAllExpression(u => u.ApplicationUserId == userId,
+                includeProperties: "Product").ToList(),
+                OrderHeader = new()
+            };
+
+            shoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u=>u.Id == userId);
+
+            shoppingCartVM.OrderHeader.Name = shoppingCartVM.OrderHeader.ApplicationUser.Name;
+            shoppingCartVM.OrderHeader.PhoneNumber = shoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber;
+            shoppingCartVM.OrderHeader.StreetAddress = shoppingCartVM.OrderHeader.ApplicationUser.StreetAddress;
+            shoppingCartVM.OrderHeader.City = shoppingCartVM.OrderHeader.ApplicationUser.City;
+            shoppingCartVM.OrderHeader.Carrier = "Indigo";
+            IEnumerable<ProductImage> productImages =
+                _unitOfWork.ProductImage.GetAllExpression();
+
+            foreach (var cart in shoppingCartVM.ShoppingKartsList)
+            {
+                cart.Product.ProductImages = productImages.Where(x => x.ProductId == cart.Product.ProductId).ToList();
+                cart.Price = GetPriceBasedOnQuantity(cart);
+                shoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+            }
+            return View(shoppingCartVM);
         }
     }
 }

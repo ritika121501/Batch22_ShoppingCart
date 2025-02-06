@@ -14,6 +14,5 @@ namespace ShoppingCart.Repository
         {
             _db.Category.Update(obj);
         }
-
     }
 }

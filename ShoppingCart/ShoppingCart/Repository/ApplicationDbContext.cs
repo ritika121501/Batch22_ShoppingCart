@@ -17,6 +17,7 @@ namespace ShoppingCart.Repository
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<ShoppingKart> ShoppingKarts { get; set; }
+        public DbSet<OrderHeader> OrderHeaders { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

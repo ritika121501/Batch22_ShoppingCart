@@ -7,6 +7,7 @@
         public IProductRepository Product { get; private set; }
         public IProductImageRepository ProductImage { get; private set; }
         public IShoppingkartRepository Shoppingkart { get; private set; }
+        public IApplicationUserRepository ApplicationUser { get; private set; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
@@ -15,6 +16,7 @@
             Product = new ProductRepository(_db);
             ProductImage = new ProductImageRepository(_db);
             Shoppingkart = new ShoppingKartRepository(_db);
+            ApplicationUser = new ApplicationUserRepository(_db);
         }
 
         public void Save()
