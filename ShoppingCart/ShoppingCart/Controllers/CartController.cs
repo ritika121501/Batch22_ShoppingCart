@@ -74,7 +74,7 @@ namespace ShoppingCart.Controllers
             decimal finalPrice = 0;
             if(shoppingKart != null)
             {
-                finalPrice= shoppingKart.Count * shoppingKart.Price;
+                finalPrice= shoppingKart.Count * shoppingKart.Product.Price;
             }
             return finalPrice;
         }
@@ -105,7 +105,7 @@ namespace ShoppingCart.Controllers
             {
                 cart.Product.ProductImages = productImages.Where(x => x.ProductId == cart.Product.ProductId).ToList();
                 cart.Price = GetPriceBasedOnQuantity(cart);
-                shoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+                shoppingCartVM.OrderHeader.OrderTotal += (cart.Price);
             }
             return View(shoppingCartVM);
         }
