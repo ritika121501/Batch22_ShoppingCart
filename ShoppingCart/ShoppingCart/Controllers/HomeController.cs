@@ -39,6 +39,10 @@ namespace ShoppingCart.Controllers
         public IActionResult Details(ShoppingKart shoppingKart)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
+            if (!claimsIdentity.IsAuthenticated) 
+            {
+                return RedirectToPage("/Account/Login", new { area = "Identity" });
+            }
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             var productFromDb = _unitOfWork.Product.Get(u => u.ProductId == shoppingKart.ProductId, includeProperties: "Category,ProductImages");
 

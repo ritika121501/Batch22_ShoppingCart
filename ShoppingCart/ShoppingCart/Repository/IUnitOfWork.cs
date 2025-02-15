@@ -7,6 +7,9 @@
         IProductImageRepository ProductImage { get; }
         IShoppingkartRepository Shoppingkart { get; }
         IApplicationUserRepository ApplicationUser { get; }
+
+        IOrderDetailRepository OrderDetail { get; }
+        IOrderHeaderRepository OrderHeader { get; }
         void Save();
     }
 }
