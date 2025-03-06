@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Entities;
 using ShoppingCart.Models;
 using ShoppingCart.Repository;
@@ -21,6 +22,10 @@ namespace ShoppingCart.Controllers
         public IActionResult Index()
         {
             IEnumerable<Product> productList = _unitOfWork.Product.GetAllExpression(includeProperties: "Category,ProductImages");
+            if (productList == null || productList.Count()<=0)
+            {
+                return View(new List<Product>());
+            }
             return View(productList);
         }
 
@@ -28,7 +33,7 @@ namespace ShoppingCart.Controllers
         {
             ShoppingKart shoppingKart = new ShoppingKart()
             {
-                Product = _unitOfWork.Product.Get(u => u.ProductId == productId, includeProperties: "Category,ProductImages"),
+                Product = _unitOfWork.GetWithIncludes(productId),
                 Count = 1,
                 ProductId = productId
             };

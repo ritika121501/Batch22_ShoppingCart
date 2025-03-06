@@ -1,4 +1,7 @@
-﻿namespace ShoppingCart.Repository
+﻿using Microsoft.EntityFrameworkCore;
+using ShoppingCart.Entities;
+
+namespace ShoppingCart.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
@@ -23,6 +26,13 @@
             OrderDetail = new OrderDetailRepository(_db);
         }
 
+        public Product GetWithIncludes(int productId)
+        {
+            return _db.Product
+                .Include(p => p.Category)
+                .Include(p => p.ProductImages)
+                .FirstOrDefault(p => p.ProductId == productId);
+        }
         public void Save()
         {
             _db.SaveChanges();

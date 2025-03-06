@@ -1,4 +1,6 @@
-﻿namespace ShoppingCart.Repository
+﻿using ShoppingCart.Entities;
+
+namespace ShoppingCart.Repository
 {
     public interface IUnitOfWork
     {
@@ -10,6 +12,7 @@
 
         IOrderDetailRepository OrderDetail { get; }
         IOrderHeaderRepository OrderHeader { get; }
+        Product GetWithIncludes(int productId);
         void Save();
     }
 }
