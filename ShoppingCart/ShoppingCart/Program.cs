@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using ShoppingCart.Repository;
 using Microsoft.AspNetCore.Identity;
+using ShoppingCart.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ApplicationDbContext>();
 //builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

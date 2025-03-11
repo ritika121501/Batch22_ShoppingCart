@@ -251,6 +251,35 @@ namespace ShoppingCart.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("ShoppingCart.Entities.OrderDetail", b =>
+                {
+                    b.Property<int>("OrderDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderDetailId"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderHeaderId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("OrderDetailId");
+
+                    b.HasIndex("OrderHeaderId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("OrderDetails");
+                });
+
             modelBuilder.Entity("ShoppingCart.Entities.OrderHeader", b =>
                 {
                     b.Property<int>("OrderHeaderId")
@@ -463,6 +492,25 @@ namespace ShoppingCart.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("ShoppingCart.Entities.OrderDetail", b =>
+                {
+                    b.HasOne("ShoppingCart.Entities.OrderHeader", "OrderHeader")
+                        .WithMany()
+                        .HasForeignKey("OrderHeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShoppingCart.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OrderHeader");
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("ShoppingCart.Entities.OrderHeader", b =>

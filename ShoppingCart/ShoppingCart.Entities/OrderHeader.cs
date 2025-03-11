@@ -14,6 +14,7 @@ namespace ShoppingCart.Entities
         [Key]
         public int OrderHeaderId { get;set; }
         public string ApplicationUserId { get; set; }
+
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }

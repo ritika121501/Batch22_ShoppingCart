@@ -12,11 +12,13 @@ namespace ShoppingCart.Controllers
     {
         private readonly ILogger<CartController> _logger;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailSender _emailSender;
 
-        public CartController(IUnitOfWork unitOfWork, ILogger<CartController> logger)
+        public CartController(IUnitOfWork unitOfWork, ILogger<CartController> logger, IEmailSender emailSender)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;
+            _emailSender = emailSender;
         }
         public IActionResult Index()
         {
@@ -130,12 +132,12 @@ namespace ShoppingCart.Controllers
                 OrderHeader = new()
             };
 
-            shoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
-            shoppingCartVM.OrderHeader.ApplicationUserId = userId;
-            shoppingCartVM.OrderHeader.Name = shoppingCartVM.OrderHeader.ApplicationUser.Name;
-            shoppingCartVM.OrderHeader.PhoneNumber = shoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber;
-            shoppingCartVM.OrderHeader.StreetAddress = shoppingCartVM.OrderHeader.ApplicationUser.StreetAddress;
-            shoppingCartVM.OrderHeader.City = shoppingCartVM.OrderHeader.ApplicationUser.City;
+            var applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+            shoppingCartVM.OrderHeader.ApplicationUserId = applicationUser.Id;
+            shoppingCartVM.OrderHeader.Name = applicationUser.Name;
+            shoppingCartVM.OrderHeader.PhoneNumber = applicationUser.PhoneNumber;
+            shoppingCartVM.OrderHeader.StreetAddress = applicationUser.StreetAddress;
+            shoppingCartVM.OrderHeader.City = applicationUser.City;
             shoppingCartVM.OrderHeader.Carrier = ShoppingCartUtility.CarrierIndigo;
           
 
@@ -145,7 +147,11 @@ namespace ShoppingCart.Controllers
                 shoppingCartVM.OrderHeader.OrderTotal += (cart.Price);
                 shoppingCartVM.OrderHeader.PaymentStatus = ShoppingCartUtility.PaymentStatusApproved;
                 shoppingCartVM.OrderHeader.OrderStatus = ShoppingCartUtility.OrderStatusCompleted;
+                shoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
+                shoppingCartVM.OrderHeader.PaymentDate = DateTime.Now;
+                shoppingCartVM.OrderHeader.ShippingDate = DateTime.Now;
             }
+
 
             _unitOfWork.OrderHeader.Add(shoppingCartVM.OrderHeader);
             _unitOfWork.Save();
@@ -163,7 +169,24 @@ namespace ShoppingCart.Controllers
                 _unitOfWork.Save();
             }
 
-            return View(shoppingCartVM);
+            return RedirectToAction(nameof(OrderConfirmation), new { id = shoppingCartVM.OrderHeader.OrderHeaderId });
+        }
+
+        public IActionResult OrderConfirmation(int id)
+        {
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u=>u.OrderHeaderId == id,includeProperties:"ApplicationUser");
+            if (orderHeader != null)
+            {
+                if(orderHeader.PaymentStatus == ShoppingCartUtility.PaymentStatusApproved)
+                {
+                    _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "", "");
+                    List<ShoppingKart> carts = _unitOfWork.Shoppingkart.GetAllExpression(u=> u.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
+                    _unitOfWork.Shoppingkart.RemoveRange(carts);
+                    _unitOfWork.Save();
+                }
+            }
+
+            return View();
         }
     }
 }
